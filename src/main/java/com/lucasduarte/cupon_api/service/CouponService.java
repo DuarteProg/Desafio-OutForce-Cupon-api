@@ -16,8 +16,6 @@ public class CouponService {
 
     private final CouponRepository repository;
 
-
-
     public CouponResponseDTO findById(String id) {
         Coupon coupon = repository.findById(id)
                 .orElseThrow(() -> new CouponNotFoundException("Cupom não encontrado."));
