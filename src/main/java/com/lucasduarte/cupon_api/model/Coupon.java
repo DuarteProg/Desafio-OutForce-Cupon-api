@@ -28,7 +28,7 @@ public class Coupon {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @DecimalMin(value = "0.5", message = "O valor mínimo do desconto é 0.5")
+
     @Column(nullable = false)
     private Double discountValue;
 

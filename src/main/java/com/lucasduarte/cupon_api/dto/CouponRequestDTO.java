@@ -22,7 +22,6 @@ public class CouponRequestDTO {
     private String description;
 
     @NotNull
-    @DecimalMin("0.5")
     private Double discountValue;
 
     @NotNull
