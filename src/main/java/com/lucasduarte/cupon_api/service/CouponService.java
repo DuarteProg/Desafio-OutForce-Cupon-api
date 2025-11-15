@@ -53,6 +53,21 @@ public class CouponService {
         return CouponMapper.toResponse(coupon);
     }
 
+    public void delete(String id) {
+        Coupon coupon = repository.findById(id)
+                .orElseThrow(() -> new CouponNotFoundException("Cupom não encontrado."));
+
+        if (coupon.isDeleted()) {
+            throw new IllegalStateException("O cupom já está deletado.");
+        }
+
+        coupon.setDeleted(true);
+        coupon.setStatus(CouponStatus.DELETED);
+
+        repository.save(coupon);
+    }
+
+
 
     private String sanitizeCode(String code) {
         if (code == null) return null;
