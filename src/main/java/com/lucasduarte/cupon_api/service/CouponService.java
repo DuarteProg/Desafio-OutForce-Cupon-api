@@ -5,7 +5,9 @@ import com.lucasduarte.cupon_api.exception.CouponNotFoundException;
 import com.lucasduarte.cupon_api.model.Coupon;
 import com.lucasduarte.cupon_api.repository.CouponRepository;
 import com.lucasduarte.cupon_api.utils.CouponMapper;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CouponService {
 
     private final CouponRepository repository;
