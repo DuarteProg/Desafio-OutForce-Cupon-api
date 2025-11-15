@@ -6,17 +6,16 @@ import com.lucasduarte.cupon_api.exception.CouponNotFoundException;
 import com.lucasduarte.cupon_api.model.Coupon;
 import com.lucasduarte.cupon_api.repository.CouponRepository;
 import com.lucasduarte.cupon_api.utils.CouponMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
 public class CouponService {
 
     private final CouponRepository repository;
 
-    public CouponService(CouponRepository repository) {
-        this.repository = repository;
-    }
 
 
     public CouponResponseDTO findById(String id) {
