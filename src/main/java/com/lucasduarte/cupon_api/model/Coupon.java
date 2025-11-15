@@ -2,7 +2,6 @@ package com.lucasduarte.cupon_api.model;
 
 import com.lucasduarte.cupon_api.enums.CouponStatus;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
 import lombok.*;
 
 import java.time.LocalDateTime;
