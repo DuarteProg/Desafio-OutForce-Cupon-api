@@ -3,13 +3,23 @@ package com.lucasduarte.cupon_api.model;
 import com.lucasduarte.cupon_api.enums.CouponStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "coupons")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Coupon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @EqualsAndHashCode.Include
     private String id;
 
     @Column(nullable = false, length = 6)
