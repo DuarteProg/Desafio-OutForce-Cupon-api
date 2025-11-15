@@ -1,7 +1,9 @@
 package com.lucasduarte.cupon_api.service;
 
+import com.lucasduarte.cupon_api.dto.CouponResponseDTO;
 import com.lucasduarte.cupon_api.model.Coupon;
 import com.lucasduarte.cupon_api.repository.CouponRepository;
+import com.lucasduarte.cupon_api.utils.CouponMapper;
 
 public class CouponService {
 

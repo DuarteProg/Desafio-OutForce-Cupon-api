@@ -1,5 +1,6 @@
 package com.lucasduarte.cupon_api.utils;
 
+import com.lucasduarte.cupon_api.dto.CouponResponseDTO;
 import com.lucasduarte.cupon_api.model.Coupon;
 
 public class CouponMapper {
@@ -15,4 +16,5 @@ public class CouponMapper {
                 .published(coupon.isPublished())
                 .redeemed(coupon.isRedeemed())
                 .build();
+    }
 }
