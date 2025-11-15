@@ -1,5 +1,6 @@
 package com.lucasduarte.cupon_api.model;
 
+import com.lucasduarte.cupon_api.enums.CouponStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 
@@ -26,7 +27,7 @@ public class Coupon {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status;
+    private CouponStatus status;
 
     @Column(nullable = false)
     private boolean published = false;
