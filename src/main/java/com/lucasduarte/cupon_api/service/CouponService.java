@@ -3,6 +3,7 @@ package com.lucasduarte.cupon_api.service;
 import com.lucasduarte.cupon_api.dto.CouponRequestDTO;
 import com.lucasduarte.cupon_api.dto.CouponResponseDTO;
 import com.lucasduarte.cupon_api.enums.CouponStatus;
+import com.lucasduarte.cupon_api.exception.BadRequestException;
 import com.lucasduarte.cupon_api.exception.CouponNotFoundException;
 import com.lucasduarte.cupon_api.model.Coupon;
 import com.lucasduarte.cupon_api.repository.CouponRepository;
@@ -34,7 +35,7 @@ public class CouponService {
 
         LocalDateTime expiration = LocalDateTime.parse(dto.getExpirationDate());
         if (expiration.isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("A data de expiração não pode ser no passado.");
+            throw new BadRequestException("A data de expiração não pode ser no passado.");
         }
 
         Coupon coupon = Coupon.builder()
