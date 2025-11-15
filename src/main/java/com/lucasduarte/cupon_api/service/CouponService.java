@@ -31,7 +31,7 @@ public class CouponService {
 
     public CouponResponseDTO create(CouponRequestDTO dto) {
         if (dto.getDiscountValue() < 0.5) {
-            throw new BadRequestException("O valor mínimo do desconto é 0.5.");
+            throw new BadRequestException("O valor do desconto deve ser 0.5 ou maior.");
         }
 
         String sanitizedCode = sanitizeCode(dto.getCode());
@@ -63,7 +63,7 @@ public class CouponService {
                 .orElseThrow(() -> new CouponNotFoundException("Cupom não encontrado."));
 
         if (coupon.isDeleted()) {
-            throw new IllegalStateException("O cupom já está deletado.");
+            throw new BadRequestException("O cupom já está deletado.");
         }
 
         coupon.setDeleted(true);
