@@ -1,6 +1,7 @@
 package com.lucasduarte.cupon_api.service;
 
 import com.lucasduarte.cupon_api.dto.CouponResponseDTO;
+import com.lucasduarte.cupon_api.exception.CouponNotFoundException;
 import com.lucasduarte.cupon_api.model.Coupon;
 import com.lucasduarte.cupon_api.repository.CouponRepository;
 import com.lucasduarte.cupon_api.utils.CouponMapper;
@@ -15,7 +16,7 @@ public class CouponService {
 
     public CouponResponseDTO findById(String id) {
         Coupon coupon = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cupom não encontrado."));
+                .orElseThrow(() -> new CouponNotFoundException("Cupom não encontrado."));
 
         return CouponMapper.toResponse(coupon);
     }
