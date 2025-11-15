@@ -25,4 +25,10 @@ public class CouponController {
         CouponResponseDTO response = service.create(dto);
         return ResponseEntity.status(201).body(response);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
