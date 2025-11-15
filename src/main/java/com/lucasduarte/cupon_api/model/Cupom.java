@@ -1,6 +1,7 @@
 package com.lucasduarte.cupon_api.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 
 import java.time.LocalDateTime;
 
