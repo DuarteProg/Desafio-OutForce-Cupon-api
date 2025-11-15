@@ -2,12 +2,15 @@ package com.lucasduarte.cupon_api.service;
 
 import com.lucasduarte.cupon_api.dto.CouponRequestDTO;
 import com.lucasduarte.cupon_api.dto.CouponResponseDTO;
+import com.lucasduarte.cupon_api.enums.CouponStatus;
 import com.lucasduarte.cupon_api.exception.CouponNotFoundException;
 import com.lucasduarte.cupon_api.model.Coupon;
 import com.lucasduarte.cupon_api.repository.CouponRepository;
 import com.lucasduarte.cupon_api.utils.CouponMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 
 @Service
@@ -16,6 +19,7 @@ public class CouponService {
 
     private final CouponRepository repository;
 
+
     public CouponResponseDTO findById(String id) {
         Coupon coupon = repository.findById(id)
                 .orElseThrow(() -> new CouponNotFoundException("Cupom não encontrado."));
@@ -23,11 +27,44 @@ public class CouponService {
         return CouponMapper.toResponse(coupon);
     }
 
+
     public CouponResponseDTO create(CouponRequestDTO dto) {
-        Coupon coupon = CouponMapper.toEntity(dto);
+        String sanitizedCode = sanitizeCode(dto.getCode());
+
+
+        LocalDateTime expiration = LocalDateTime.parse(dto.getExpirationDate());
+        if (expiration.isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("A data de expiração não pode ser no passado.");
+        }
+
+        Coupon coupon = Coupon.builder()
+                .code(sanitizedCode)
+                .description(dto.getDescription())
+                .discountValue(dto.getDiscountValue())
+                .expirationDate(expiration)
+                .status(CouponStatus.ACTIVE)
+                .published(dto.isPublished())
+                .redeemed(false)
+                .deleted(false)
+                .build();
 
         coupon = repository.save(coupon);
 
         return CouponMapper.toResponse(coupon);
+    }
+
+
+    private String sanitizeCode(String code) {
+        if (code == null) return null;
+
+        String codeWithNoSpecialCaractersAndWithSixCaracters = code.replaceAll("[^A-Za-z0-9]", "");
+
+        if (codeWithNoSpecialCaractersAndWithSixCaracters.length() > 6) {
+            codeWithNoSpecialCaractersAndWithSixCaracters = codeWithNoSpecialCaractersAndWithSixCaracters.substring(0, 6);
+        } else if (codeWithNoSpecialCaractersAndWithSixCaracters.length() < 6) {
+            codeWithNoSpecialCaractersAndWithSixCaracters = String.format("%-6s", codeWithNoSpecialCaractersAndWithSixCaracters).replace(" ", "X");
+        }
+
+        return codeWithNoSpecialCaractersAndWithSixCaracters;
     }
 }
