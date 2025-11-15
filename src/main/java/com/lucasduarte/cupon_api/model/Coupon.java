@@ -5,7 +5,7 @@ import jakarta.validation.constraints.DecimalMin;
 
 import java.time.LocalDateTime;
 
-public class Cupom {
+public class Coupon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
