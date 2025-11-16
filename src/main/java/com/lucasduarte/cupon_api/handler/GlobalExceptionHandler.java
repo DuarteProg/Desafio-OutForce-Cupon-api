@@ -4,6 +4,7 @@ import com.lucasduarte.cupon_api.exception.BadRequestException;
 import com.lucasduarte.cupon_api.exception.CouponNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -34,6 +35,26 @@ public class GlobalExceptionHandler {
         error.put("status", HttpStatus.BAD_REQUEST.value());
         error.put("error", "Bad Request");
         error.put("message", ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException ex) {
+
+        Map<String, Object> error = new HashMap<>();
+        error.put("timestamp", LocalDateTime.now());
+        error.put("status", HttpStatus.BAD_REQUEST.value());
+        error.put("error", "Bad Request");
+
+        String message = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(f -> f.getDefaultMessage())
+                .findFirst()
+                .orElse("Erro de validação");
+
+        error.put("message", message);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }

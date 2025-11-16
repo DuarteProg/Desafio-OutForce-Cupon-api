@@ -30,28 +30,14 @@ public class CouponService {
 
 
     public CouponResponseDTO create(CouponRequestDTO dto) {
-        if (dto.getDiscountValue() < 0.5) {
-            throw new BadRequestException("O valor do desconto deve ser 0.5 ou maior.");
-        }
-
         String sanitizedCode = sanitizeCode(dto.getCode());
-
 
         LocalDateTime expiration = LocalDateTime.parse(dto.getExpirationDate());
         if (expiration.isBefore(LocalDateTime.now())) {
             throw new BadRequestException("A data de expiração não pode ser no passado.");
         }
 
-        Coupon coupon = Coupon.builder()
-                .code(sanitizedCode)
-                .description(dto.getDescription())
-                .discountValue(dto.getDiscountValue())
-                .expirationDate(expiration)
-                .status(CouponStatus.ACTIVE)
-                .published(dto.isPublished())
-                .redeemed(false)
-                .deleted(false)
-                .build();
+        Coupon coupon = CouponMapper.toEntity(dto, sanitizedCode, expiration);
 
         coupon = repository.save(coupon);
 

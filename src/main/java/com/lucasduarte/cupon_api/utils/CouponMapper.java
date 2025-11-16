@@ -22,12 +22,14 @@ public class CouponMapper {
                 .build();
     }
 
-    public static Coupon toEntity(CouponRequestDTO dto) {
+    public static Coupon toEntity(CouponRequestDTO dto,
+                                  String sanitizedCode,
+                                  LocalDateTime expirationDate) {
         return Coupon.builder()
-                .code(dto.getCode())
+                .code(sanitizedCode)
                 .description(dto.getDescription())
                 .discountValue(dto.getDiscountValue())
-                .expirationDate(LocalDateTime.parse(dto.getExpirationDate()))
+                .expirationDate(expirationDate)
                 .status(CouponStatus.ACTIVE)
                 .published(dto.isPublished())
                 .redeemed(false)
