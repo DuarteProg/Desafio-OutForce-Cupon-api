@@ -30,6 +30,10 @@ public class CouponService {
 
 
     public CouponResponseDTO create(CouponRequestDTO dto) {
+        if (dto.getDiscountValue() < 0.5) {
+            throw new BadRequestException("O valor mínimo do desconto é 0.5.");
+        }
+
         String sanitizedCode = sanitizeCode(dto.getCode());
 
         LocalDateTime expiration = LocalDateTime.parse(dto.getExpirationDate());
